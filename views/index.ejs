@@ -1,0 +1,90 @@
+
+
+    <%- include('shared/header.ejs')  %> 
+      <!-- Button trigger modal -->
+<button type="button" class="btn  my-5 mx-5 button float-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  <i class="fas fa-plus-circle "></i><span class="px-2">Add Note</span>
+</button>
+    <div class="clearfix"></div>
+   
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<form action="/addNote" method="post">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" name="title"  placeholder="Enter Title" style="color: black;" class="my-4 form-control">
+        <textarea name="desc"  cols="30" rows="10" class="my-4 form-control" style="color: black;" placeholder="Enter Desc"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-outline-danger"><i class="fas fa-plus-circle "></i><span class="px-2">Add Note</span></button>
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+<!-- note -->
+ <div class="container my-5 py-5">
+  <div class="row">
+    <% for( let index = 0; index < note.length; index++ ) { %>
+      <div class="col-md-4 my-3 ">
+        <div class="title note p-3 shadow  ">
+          <h3 id="title<%= note[index]._id %>"><%= note[index].title%></h3>
+          <a onclick="editNote('<%= note[index]._id %>')" data-bs-toggle="modal" data-bs-target="#editModel"><i class="fas fa-edit edit"></i></a>
+          <a onclick="deleteNote('<%= note[index]._id %>')" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-trash-alt del"></i></a>
+          <div class="clearfix"></div>
+          <p id="desc<%= note[index]._id %>" class="w-100 pt-3"><%= note[index].desc %> </p>
+        </div>
+      </div> 
+    <% } %>
+  </div>
+</div>
+
+<!--Delete Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        Are you sure you want to wipe?<br> it can't be retrieved
+      </div>
+      <form action="/handelDelete" method="post">
+        <input type="text" class="form-control d-none" name="delete" id="deleteNote">
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+      </form>
+     
+    </div>
+  </div>
+</div>
+<!-- edit Model -->
+<div class="modal fade" id="editModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <form action="/editNote" method="post">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input  type="text" name="edit" class="form-control d-none" id="editnote">
+          <input id="inputTitle" type="text" name="title" placeholder="Enter Title" style="color: black;" class="my-4 form-control">
+          <textarea name="desc" id="inputDesc" cols="30" rows="10" class="my-4 form-control" style="color: black;" placeholder="Enter Desc"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-outline-danger"><i class="fas fa-plus-circle "></i><span class="px-2">Add Note</span></button>
+        </div>
+      </div>
+    </div>
+  </form>
+  </div>
+<%- include('shared/footer.ejs')  %> 
